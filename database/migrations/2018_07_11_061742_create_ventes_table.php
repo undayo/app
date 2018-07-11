@@ -15,7 +15,13 @@ class CreateVentesTable extends Migration
     {
         Schema::create('ventes', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('client_id')->unsigned();
+            $table->date('date');
+            $table->float('montant');
             $table->timestamps();
+
+            $table->foreign('client_id')->references('id')->on('clients');
+            
         });
     }
 

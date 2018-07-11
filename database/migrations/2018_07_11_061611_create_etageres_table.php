@@ -15,7 +15,11 @@ class CreateEtageresTable extends Migration
     {
         Schema::create('etageres', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('nom')->index();
+            $table->integer('rayon_id')->unsigned();
             $table->timestamps();
+
+            $table->foreign('rayon_id')->references('id')->on('rayons');
         });
     }
 

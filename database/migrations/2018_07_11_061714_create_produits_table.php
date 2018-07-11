@@ -15,7 +15,17 @@ class CreateProduitsTable extends Migration
     {
         Schema::create('produits', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('nom')->index();
+            $table->float('prix');
+            $table->string('image');
+            $table->integer('categorie_id')->unsigned();
+            $table->integer('rayon_id')->unsigned();
+            $table->integer('etagere_id')->unsigned();
             $table->timestamps();
+
+            $table->foreign('categorie_id')->references('id')->on('categories');
+            $table->foreign('rayon_id')->references('id')->on('rayons');
+            $table->foreign('etagere_id')->references('id')->on('etageres');
         });
     }
 

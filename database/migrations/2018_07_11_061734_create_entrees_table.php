@@ -15,7 +15,13 @@ class CreateEntreesTable extends Migration
     {
         Schema::create('entrees', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('produit_id')->unsigned();
+            $table->float('quantite');
+            $table->integer('approvisionnement_id')->unsigned();
             $table->timestamps();
+
+            $table->foreign('approvisionnement_id')->references('id')->on('approvisionnements');
+            $table->foreign('produit_id')->references('id')->on('produits');
         });
     }
 

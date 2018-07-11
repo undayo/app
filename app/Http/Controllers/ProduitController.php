@@ -29,6 +29,7 @@ class ProduitController extends Controller
     	$validator = Validator::make(Input::all(), {
     		'nom'=>'required',
     		'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'prix' => 'required',
 
     	});
 
@@ -45,6 +46,7 @@ class ProduitController extends Controller
     		$produit = new Produit;
     		$produit->nom = Input::get('nom');
     		$produit->categorie_id = Input::get('categorie');
+            $produit->prix = Input::get('prix');
     		$produit->image = $imageName;
     		$produit->save();
 
@@ -100,7 +102,7 @@ class ProduitController extends Controller
     			$produit->image = $imageName;
     			request()->image->move(public_path('images'), $imageName);
     		}
-
+            $produit->prix = Input::get('prix');
     		$produit->save();
 
            

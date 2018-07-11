@@ -15,7 +15,13 @@ class CreateSortiesTable extends Migration
     {
         Schema::create('sorties', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('produit_id')->unsigned();
+            $table->float('quantite');
+            $table->integer('vente_id')->unsigned();
             $table->timestamps();
+
+            $table->foreign('vente_id')->references('id')->on('ventes');
+            $table->foreign('produit_id')->references('id')->on('produits');
         });
     }
 

@@ -15,7 +15,11 @@ class CreateApprovisionnementsTable extends Migration
     {
         Schema::create('approvisionnements', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('fournisseur_id')->unsigned();
+            $table->date('date');
             $table->timestamps();
+
+            $table->foreign('fournisseur_id')->references('id')->on('fournisseurs');
         });
     }
 

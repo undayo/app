@@ -15,7 +15,14 @@ class CreateFacturesTable extends Migration
     {
         Schema::create('factures', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('client_id')->unsigned();
+            $table->date('date');
+            $table->integer('vente_id')->unsigned();
+            $table->float('remise');
             $table->timestamps();
+
+            $table->foreign('client_id')->references('id')->on('clients');
+            $table->foreign('vente_id')->references('id')->on('ventes');
         });
     }
 

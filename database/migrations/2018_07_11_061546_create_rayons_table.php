@@ -15,6 +15,8 @@ class CreateRayonsTable extends Migration
     {
         Schema::create('rayons', function (Blueprint $table) {
             $table->increments('id');
+             $table->string('nom');
+            $table->string('image');
             $table->timestamps();
         });
     }

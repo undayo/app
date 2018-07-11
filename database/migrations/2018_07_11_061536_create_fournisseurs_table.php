@@ -15,6 +15,8 @@ class CreateFournisseursTable extends Migration
     {
         Schema::create('fournisseurs', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('nom');
+            $table->string('telephone');
             $table->timestamps();
         });
     }
