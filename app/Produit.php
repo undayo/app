@@ -23,10 +23,7 @@ class Produit extends Model
     	return $this->belongsTo('App\etagere');
     }
 
-    public function range(){
-
-    	return $this->belongsTo('App\Range');
-    }
+    
 
     public function entrees()
     {
