@@ -26,11 +26,11 @@ class ClientController extends Controller
 
     public function store(){
 
-    	$validator = Validator::make(Input::all(), {
+    	$validator = Validator::make(Input::all(), [
     		'nom'=>'required',
     		'telephone'=>'required'
 
-    	});
+    	]);
 
     	if($validator->fails()){
 
@@ -72,11 +72,11 @@ class ClientController extends Controller
 
     public function update($id){
 
-    	$validator = Validator::make(Input::all(), {
+    	$validator = Validator::make(Input::all(), [
     		'nom'=>'required',
     		'telephone'=>'required',
 
-    	});
+    	]);
 
     	if($validator->fails()){
 

@@ -26,10 +26,10 @@ class CategorieController extends Controller
 
     public function store(){
 
-    	$validator = Validator::make(Input::all(), {
+    	$validator = Validator::make(Input::all(), [
     		'nom'=>'required',
 
-    	});
+    	]);
 
     	if($validator->fails()){
 
@@ -44,7 +44,7 @@ class CategorieController extends Controller
     		$categorie->save();
 
     		Session::flash('success','Categorie enregistre avec success');
-    		return redirect()->route('categories.index');
+    		return redirect()->route('produits.index');
     	}
     }
 
@@ -70,10 +70,10 @@ class CategorieController extends Controller
 
     public function update($id){
 
-    	$validator = Validator::make(Input::all(), {
+    	$validator = Validator::make(Input::all(), [
     		'nom'=>'required',
 
-    	});
+    	]);
 
     	if($validator->fails()){
 

@@ -8,14 +8,20 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Carbon;
 use App\Approvisionnement;
+use App\Fournisseur;
+use App\Produit;
+use App\Entree;
 
 class ApprovisionnementController extends Controller
 {
     public function index(){
 
     	$approvisionnements = Approvisionnement::all();
-    	return view('admin.approvisionnements.index', compact('approvisionnements'));
+        $fournisseurs = Fournisseur::all();
+        $produits = Produit::all();
+    	return view('admin.approvisionnements.index', compact('approvisionnements', 'fournisseurs'));
 
     }
 
@@ -26,10 +32,11 @@ class ApprovisionnementController extends Controller
 
     public function store(){
 
-    	$validator = Validator::make(Input::all(), {
+    	$validator = Validator::make(Input::all(), [
     		'fournisseur'=>'required',
+            
 
-    	});
+    	]);
 
     	if($validator->fails()){
 
@@ -41,6 +48,7 @@ class ApprovisionnementController extends Controller
 
     		$approvisionnement = new Approvisionnement;
     		$approvisionnement->date = Carbon::now();
+            $approvisionnement->fournisseur_id = Input::get('fournisseur');
     		$approvisionnement->save();
 
     		return redirect()->route('approvisionnements.edit', $approvisionnement->id);
@@ -75,7 +83,7 @@ class ApprovisionnementController extends Controller
 
             'produit'=>'required',
             'quantite'=>'required',
-            'fournisseur'=>'required',
+            
         ]);
 
         if($validator->fails()){
@@ -86,20 +94,38 @@ class ApprovisionnementController extends Controller
         }
         else{
 
+
+
             $approvisionnement = Approvisionnement::FindOrFail($id);
 
-            if($approvisionnement->fournisseur==''){
-                $approvisionnement->fournisseur = Input::get('fournisseur');
-                $approvisionnement->save();
-            }
+            // Verification de l'existance de la ligne
+            $verification = false;
 
-            $entree = new Entree;
+            $entrees = Entree::where('approvisionnement_id','=',$id)->get();
+            foreach ($entrees as $entree) {
+                if($entree->produit_id==Input::get('produit')){
+                    $entree->quantite = Input::get('quantite');
+                    $entree->save();
+                    $Verification = true;
+
+                }
+
+            }
+            
+            if($Verification == false){
+                $entree = new Entree;
             $entree->produit_id = Input::get('produit');
             $entree->quantite = Input::get('quantite');
             $entree->approvisionnement_id = Input::get('approvisionnement');
             $entree->save();
-
             Session::flash('success', 'Produit ajoute dans la liste');
+            }
+            else{
+                Session::flash('success', 'Modification de la quantite pris en compte');
+            }
+            
+
+            
             return redirect()->route('approvisionnements.edit', $approvisionnement->id);
         }
     }
@@ -108,9 +134,31 @@ class ApprovisionnementController extends Controller
 
         $approvisionnement = Approvisionnement::FindOrfail($id);
         $approvisionnement->delete();
-        return return redirect()->route('approvisionnements.index');
+        return redirect()->route('approvisionnements.index');
         
     }
+
+    public function deleteEntree($id){
+
+        $entree = Entree::FindOrfail($id);
+        $entree->delete();
+        return redirect()->back();
+        
+    }
+
+    public function cancel($id){
+        $entrees = Entree::where('approvisionnement_id','=',$id)->get();
+        foreach ($entrees as $entree) {
+            $entree->delete();
+        }
+        $approvisionnement = Approvisionnement::FindOrfail($id);
+        $approvisionnement->delete();
+        Session::flash('message','Approvisionnement annule');
+        return redirect()->route('approvisionnements.index');
+
+    }
+
+
 
   
 }

@@ -20,10 +20,10 @@ class VenteController extends Controller
 
     public function store(){
 
-    	$validator = Validator::make(Input::all(), {
+    	$validator = Validator::make(Input::all(), [
     		'client'=>'required',
 
-    	});
+    	]);
 
     	if($validator->fails()){
 

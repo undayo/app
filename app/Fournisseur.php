@@ -10,11 +10,27 @@ class Fournisseur extends Model
 
     public function approvisionnements()
     {
-       return $this->hasMany('App\approvisionnement');
+       return $this->hasMany('App\Approvisionnement');
     }
 
     public function nombre(){
 
     	return $this->approvisionnements()->count();
     }
+
+    public function recent(){
+    	$recents = $this->approvisionnements();
+        $last = null;
+    	if($recents!=null){
+    		foreach ($recents as $recent) {
+    			$last = $recent->date;
+    		}
+    	}
+    	else{
+    		$last ="None";
+    	}
+
+    	return $last;
+    }
+
 }

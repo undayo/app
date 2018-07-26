@@ -26,11 +26,11 @@ class FournisseurController extends Controller
 
     public function store(){
 
-    	$validator = Validator::make(Input::all(), {
+    	$validator = Validator::make(Input::all(), [
     		'nom'=>'required',
-    		'telephone'=>'required'
+    		'phone'=>'required',
 
-    	});
+    	]);
 
     	if($validator->fails()){
 
@@ -42,11 +42,11 @@ class FournisseurController extends Controller
 
     		$fournisseur = new Fournisseur;
     		$fournisseur->nom = Input::get('nom');
-    		$fournisseur->telephone = Input::get('telephone');
+    		$fournisseur->telephone = Input::get('phone');
     		$fournisseur->save();
 
     		Session::flash('success','fournisseur enregistre avec success');
-    		return redirect()->route('fournisseurs.index');
+    		return redirect()->route('approvisionnements.index');
     	}
     }
 
@@ -72,11 +72,11 @@ class FournisseurController extends Controller
 
     public function update($id){
 
-    	$validator = Validator::make(Input::all(), {
+    	$validator = Validator::make(Input::all(), [
     		'nom'=>'required',
     		'telephone'=>'required',
 
-    	});
+    	]);
 
     	if($validator->fails()){
 

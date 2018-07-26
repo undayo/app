@@ -1,5 +1,12 @@
 <?php
 
+### Gestion de la route pour l'authentification
+Route::get('login', 'AppController@login')->name('login');
+Route::post('login', 'AppController@auth')->name('authentification');
+Route::get('/', 'AppController@index')->name('admin');
+Route::get('inscription', 'AppController@register')->name('register');
+Route::post('inscription', 'AppController@registration')->name('registration');
+
 ### Gestion des routes pour les produits
 Route::get('produits', 'ProduitController@index')->name('produits.index');
 Route::post('produits', 'ProduitController@search')->name('produits.search');
@@ -9,6 +16,8 @@ Route::get('produits/edit/{id}', 'ProduitController@edit')->name('produits.edit'
 Route::post('produits/edit/{id}', 'ProduitController@update')->name('produits.update');
 Route::get('produits/show/{id}', 'ProduitController@show')->name('produits.show');
 Route::get('produits/delete/{id}', 'ProduitController@delete')->name('produits.delete');
+Route::get('inventaires', 'ProduitController@inventory')->name('produits.inventory');
+Route::get('inventaires/categories/{id}', 'ProduitController@inventoryDetails');
 
 ### Gestion des routes pour les approvisionnements
 Route::get('approvisionnements', 'ApprovisionnementController@index')->name('approvisionnements.index');
@@ -19,6 +28,7 @@ Route::get('approvisionnements/edit/{id}', 'ApprovisionnementController@edit')->
 Route::post('approvisionnements/edit/{id}', 'ApprovisionnementController@update')->name('approvisionnements.update');
 Route::get('approvisionnements/show/{id}', 'ApprovisionnementController@show')->name('approvisionnements.show');
 Route::get('approvisionnements/delete/{id}', 'ApprovisionnementController@delete')->name('approvisionnements.delete');
+Route::get('approvisionnements/cancel/{id}', 'ApprovisionnementController@cancel');
 
 ### Gestion des routes pour les categories
 Route::get('categories', 'CategorieController@index')->name('categories.index');
@@ -70,6 +80,7 @@ Route::post('rayons/edit/{id}', 'RayonController@update')->name('rayons.update')
 Route::get('rayons/show/{id}', 'RayonController@show')->name('rayons.show');
 Route::get('rayons/delete/{id}', 'RayonController@delete')->name('rayons.delete');
 
+
 ### Gestion des routes pour les ventes
 Route::get('ventes', 'VenteController@index')->name('ventes.index');
 Route::post('ventes', 'VenteController@searcr')->name('ventes.search');
@@ -79,5 +90,10 @@ Route::get('ventes/edit/{id}', 'VenteController@edit')->name('ventes.edit');
 Route::post('ventes/edit/{id}', 'VenteController@update')->name('ventes.update');
 Route::get('ventes/show/{id}', 'VenteController@show')->name('ventes.show');
 Route::get('ventes/delete/{id}', 'VenteController@delete')->name('ventes.delete');
+
+### Gestion des routes pour les entrees
+
+Route::get('entrees/delete/{id}', 'ApprovisionnementController@deleteEntree')->name('entrees.delete');
+
 
 

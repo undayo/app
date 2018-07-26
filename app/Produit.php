@@ -18,9 +18,9 @@ class Produit extends Model
     	return $this->belongsTo('App\Rayon');
     }
 
-    public function etagege(){
+    public function etagere(){
 
-    	return $this->belongsTo('App\etagere');
+    	return $this->belongsTo('App\Etagere');
     }
 
     

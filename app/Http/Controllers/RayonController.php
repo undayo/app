@@ -9,13 +9,17 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Session;
 use App\Rayon;
+use App\Produit;
+use App\Etagere;
 
 class RayonController extends Controller
 {
    public function index(){
 
     	$rayons = Rayon::all();
-    	return view('admin.rayons.index', compact('rayons'));
+        $produits = Produit::all();
+        $etageres = Etagere::all();
+    	return view('admin.rayons.index', compact('rayons', 'produits','etageres'));
 
     }
 
@@ -26,11 +30,11 @@ class RayonController extends Controller
 
     public function store(){
 
-    	$validator = Validator::make(Input::all(), {
+    	$validator = Validator::make(Input::all(), [
     		'nom'=>'required',
     		'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
 
-    	});
+    	]);
 
     	if($validator->fails()){
 
@@ -44,7 +48,7 @@ class RayonController extends Controller
 
     		$rayon = new Rayon;
     		$rayon->nom = Input::get('nom');
-    		$rayon->emplacement = $imageName;
+    		$rayon->image = $imageName;
     		$rayon->save();
 
     		request()->image->move(public_path('images/rayons'), $imageName);
@@ -63,7 +67,7 @@ class RayonController extends Controller
     public function edit($id){
 
     	$rayon = Rayon::FindOrFail($id);
-    	return view('admin.rayons.edit', compact('rayon'));
+    	return $rayon;
 
     }
 
@@ -76,11 +80,11 @@ class RayonController extends Controller
 
     public function update($id){
 
-    	$validator = Validator::make(Input::all(), {
+    	$validator = Validator::make(Input::all(), [
     		'nom'=>'required',
     		'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
 
-    	});
+    	]);
 
     	if($validator->fails()){
 
@@ -101,6 +105,7 @@ class RayonController extends Controller
 
     		$rayon->save();
 
+
            
     		Session::flash('success','Modification du rayon pris en compte');
     		return redirect()->route('rayons.index');
@@ -113,7 +118,7 @@ class RayonController extends Controller
     	$rayon->delete();
 
     	Session::flash('success','rayon supprime du catalogue');
-    	return redirect()->route('rayons');
+    	return redirect()->route('rayons.index');
     }
     
 }

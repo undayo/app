@@ -26,10 +26,10 @@ class EtagereController extends Controller
 
     public function store(){
 
-    	$validator = Validator::make(Input::all(), {
+    	$validator = Validator::make(Input::all(), [
     		'nom'=>'required',
 
-    	});
+    	]);
 
     	if($validator->fails()){
 
@@ -71,11 +71,11 @@ class EtagereController extends Controller
 
     public function update($id){
 
-    	$validator = Validator::make(Input::all(), {
+    	$validator = Validator::make(Input::all(), [
     		'nom'=>'required',
     		'rayon'=>'required',
 
-    	});
+    	]);
 
     	if($validator->fails()){
 

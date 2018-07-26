@@ -8,12 +8,8 @@ class Etagere extends Model
 {
     protected $guarded = ['id'];
 
-    public function rayon(){
 
-    	return $this->belongsTo('App\Rayon');
-    }
-
-    public function produits(){
+     public function produits(){
 
     	return $this->hasMany('App\Produit');
     }
