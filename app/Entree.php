@@ -10,7 +10,7 @@ class Entree extends Model
 
     public function approvisionnement(){
 
-    	return $this->belongsTo('App\approvisionnement');
+    	return $this->belongsTo('App\Approvisionnement');
     }
 
     public function produit(){

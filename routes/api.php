@@ -20,11 +20,28 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Use App\Produit;
 Use App\Categorie;
+Use App\Rayon;
+Use App\Etagere;
  
 Route::get('produits', function() {
     // If the Content-Type and Accept headers are set to 'application/json', 
     // this will return a JSON structure. This will be cleaned up later.
-    return Produit::all();
+    $results = Produit::all();
+
+    foreach ($results as $result) {
+        $data[] = array(
+            'id'=> $result->id,
+            'nom'=>$result->nom,
+            'image'=>$result->image,
+            'categorie'=>$result->categorie->nom,
+            'rayon'=>$result->rayon->nom,
+            'etagere'=>$result->etagere->nom,
+            'localisation'=>$result->rayon->image,
+            'stock'=>$result->stock(),
+            'prix'=>$result->prix
+        );
+    }
+    return $data;
 });
 
 

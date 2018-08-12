@@ -106,13 +106,13 @@ class ApprovisionnementController extends Controller
                 if($entree->produit_id==Input::get('produit')){
                     $entree->quantite = Input::get('quantite');
                     $entree->save();
-                    $Verification = true;
+                    $verification = true;
 
                 }
 
             }
             
-            if($Verification == false){
+            if($verification == false){
                 $entree = new Entree;
             $entree->produit_id = Input::get('produit');
             $entree->quantite = Input::get('quantite');

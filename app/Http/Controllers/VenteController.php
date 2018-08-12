@@ -3,6 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Carbon;
+use App\Produit;
+use App\Vente;
+use App\Client;
+use App\Sortie;
 
 class VenteController extends Controller
 {
@@ -21,7 +31,8 @@ class VenteController extends Controller
     public function store(){
 
     	$validator = Validator::make(Input::all(), [
-    		'client'=>'required',
+    		'nom'=>'required',
+            'phone'=>'required',
 
     	]);
 
@@ -33,8 +44,14 @@ class VenteController extends Controller
     	}
     	else{
 
+            $client = new Client;
+            $client->nom = Input::get('nom');
+            $client->telephone = Input::get('phone');
+            $client->save();
+
     		$vente = new Vente;
     		$vente->date = Carbon::now();
+            $vente->client_id = $client->id;
     		$vente->save();
 
     		return redirect()->route('ventes.edit', $vente->id);
@@ -69,7 +86,7 @@ class VenteController extends Controller
 
             'produit'=>'required',
             'quantite'=>'required',
-            'client'=>'required',
+            
         ]);
 
         if($validator->fails()){
@@ -80,23 +97,53 @@ class VenteController extends Controller
         }
         else{
 
+
+
             $vente = Vente::FindOrFail($id);
 
-            if($vente->client==''){
-                $vente->client = Input::get('client');
-                
+            // Verification de l'existance de la ligne
+            $verification = false;
+
+            $sorties = Sortie::where('vente_id','=',$id)->get();
+            foreach ($sorties as $sortie) {
+                if($sortie->produit_id==Input::get('produit')){
+                    $sortie->quantite = Input::get('quantite');
+                    $sortie->montant = $sortie->produit->prix * Input::get('quantite');
+                    $sortie->save();
+                    $verification = true;
+                }
+
             }
             
-            $vente->reduction = Input::get('reduction');
-            $vente->save();
+            if($verification == false){
 
-            $sortie = new Sortie;
-            $sortie->produit_id = Input::get('produit');
-            $sortie->quantite = Input::get('quantite');
-            $sortie->vente_id = Input::get('vente');
-            $sortie->save();
+                $sortie = new Sortie;
+                $sortie->produit_id = Input::get('produit');
+                $produit = Produit::FindOrFail($sortie->produit_id);
+                
+                if($produit->stock()>=Input::get('quantite'))
+                {
+                    
+                    $sortie->montant = $produit->prix * Input::get('quantite');
+                    $sortie->quantite = Input::get('quantite');
+                    $sortie->vente_id = Input::get('vente');
+                    $sortie->save();
+                    Session::flash('success', 'Produit ajoute dans la liste');
+                }
+                else{
+                    Session::flash('warning', 'Quantite non disponible doit etre inferieur ou egale a : '.$produit->stock());
+                    return redirect()->route('ventes.edit', $vente->id);
+                }
+                
+                
+                
+            }
+            else{
+                Session::flash('success', 'Modification de la quantite pris en compte');
+            }
+            
 
-            Session::flash('success', 'Produit ajoute dans la liste');
+            
             return redirect()->route('ventes.edit', $vente->id);
         }
     }
@@ -105,7 +152,15 @@ class VenteController extends Controller
 
         $vente = Vente::FindOrfail($id);
         $vente->delete();
-        return return redirect()->route('ventes.index');
+        return redirect()->route('ventes.index');
+        
+    }
+
+    public function deleteSortie($id){
+
+        $sortie = Sortie::FindOrfail($id);
+        $sortie->delete();
+        return redirect()->back();
         
     }
 }

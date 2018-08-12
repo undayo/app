@@ -33,7 +33,7 @@
 					<tbody>
 						@foreach($rayons as $rayon)
                         <tr>
-                            <td>{{$rayon->nom}}</td>
+                            <td>{{$rayon->nom}} ({{$rayon->nombre()}})</td>
                              <td><a href="{{ url('rayons/delete',$rayon->id)}}"><i class="fa fa-trash"></i></a></td>
                         </tr>
                          @endforeach
@@ -45,8 +45,34 @@
 	<div class="col-md-7">
 		<div class="card mb-12 box-shadow">
 			<div class="card-body">
-				<h6>DASHBOARD</h6>
+				<h6>ARANGEMENT MANAGEMENT</h6>
 				<hr>
+				<div class="form-group">
+					<input type="" name="" class="form-control" style="border-radius: 0px; #FFEE4533;" placeholder="Search product ...">
+				</div>
+				<h6>Rayons List</h6>
+				<table class="table">
+					<thead style="background: #444; color:#FFF;">
+						<tr>
+						  <th></th>
+						  <th>Product</th>
+						  <th>Ray</th>
+						  <th>Rack</th>
+						  <th></th>
+					    </tr>
+					</thead>
+					<tbody>
+						@foreach($produits as $produit)
+                        <tr>
+                        	<td><img src="{{asset('images/produits/'.$produit->image)}}" width="50" height="50"></td>
+                            <td>{{$produit->nom}}</td>
+                            <td>{{$produit->rayon->nom}}</td>
+                            <td>{{$produit->etagere->nom}}</td>
+                            <td><a href="{{ url('produits/edit',$produit->id)}}"><i class="fa fa-exchange"></i></a></td>
+                        </tr>
+                         @endforeach
+					</tbody>
+				</table>
 			
 		</div>
 	</div>

@@ -41,7 +41,6 @@ class EtagereController extends Controller
 
     		$etagere = new Etagere;
     		$etagere->nom = Input::get('nom');
-    		$etagere->rayon_id = Input::get('rayon');
     		$etagere->save();
 
     		Session::flash('success','Etagere enregistre avec success');
@@ -87,7 +86,6 @@ class EtagereController extends Controller
             
     		$etagere = Etagere::FindOrFail($id);
     		$etagere->nom = Input::get('nom');
-    		$etagere->rayon_id = Input::get('rayon');
     		$etagere->save();
 
            

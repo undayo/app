@@ -2,6 +2,7 @@
 
 ### Gestion de la route pour l'authentification
 Route::get('login', 'AppController@login')->name('login');
+Route::get('logout', 'AppController@logout')->name('logout');
 Route::post('login', 'AppController@auth')->name('authentification');
 Route::get('/', 'AppController@index')->name('admin');
 Route::get('inscription', 'AppController@register')->name('register');

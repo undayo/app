@@ -243,45 +243,23 @@ body {
         <div class="content-triangle"></div>
         <div class="enter-triangle-one"></div>
         <div class="enter-triangle-two"></div>
-        <form onsubmit="return false" method="post" id="form">
+        <form  method="post" action="{{ url('inscription')}}">
+            {{ csrf_field() }}
             <div class="title">
-                <label>LOG INTO</label>
+                <label>REGISTER</label>
                 <label>SYSTEM</label>
             </div>
             <div class="input-inform">
-                <input type="text" name="nom" id="nom" placeholder="NAME..." />
-                <input type="text" name="telephone" id="telephone" placeholder="PHONE..." />
-                <input type="email" name="email" id="email" placeholder="EMAIL..." />
-                <input type="password" name="password" id="password" placeholder="PASSWORD..." />
-                <input type="button" value="FORGOT PASSWORD?" id="forgot-pas"/>
+                <input type="text" name="name" placeholder="NAME..." />
+                <input type="email" name="email" placeholder="EMAIL..." />
+                <input type="password" name="password" placeholder="PASSWORD..." />
             </div>
             <div class="enter">
                 <label for="enter"></label>
-                <input type="submit" name="submit" value="ENTER" id="enter"/>
+                <input type="submit" name="submit" value="SAVE" id="enter"/>
             </div>
         </form>    
     </div>
 </div>
-<script src='//production-assets.codepen.io/assets/common/stopExecutionOnTimeout-b2a7b3fe212eaa732349046d8416e00a9dec26eb7fd347590fbced3ab38af52e.js'></script>
-<script >document.getElementById('enter').onclick = function() {
-    valid(document.getElementById('form'));
-}
 
-function valid(form) {
-    var fail = false,
-        name = form.name.value.trim(),
-        password = form.password.value.trim();
-    console.log();
-    
-    if (!name)
-        fail = 'You have not entered the name';
-    else if (!password)
-        fail = 'You have not entered the password';
-    if (fail)
-        alert(fail);
-    else
-        alert('Good job');
-}
-//# sourceURL=pen.js
-</script><script src="//production-assets.codepen.io/assets/editor/live/check-c263eb37bf3a3d49b8311c096168b478f5750c61a1166ea2cc660498870d671f.js"></script>
 </body></html>

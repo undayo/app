@@ -57,6 +57,8 @@
             <tr>
               <th>CATEGORY : {{$item->nom}}</th>
               <th></th>
+              <th>In</th>
+              <th>Out</th>
               <th>En Stock</th>
               </tr>
           </thead>
@@ -66,6 +68,8 @@
                 <tr>
                   <td><img src="{{asset('images/produits/'.$produit->image)}}" width="30" height="30"></td>
                   <td>{{$produit->nom}}</td>
+                  <td>{{$produit->nombreEntree()}}</td>
+                  <td>{{$produit->nombreSortie()}}</td>
                   <td>{{$produit->stock()}}</td>
                 </tr>
               @endforeach

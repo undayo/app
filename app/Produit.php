@@ -10,7 +10,7 @@ class Produit extends Model
 
     public function categorie(){
 
-    	return $this->belongsTo('App\categorie');
+    	return $this->belongsTo('App\Categorie');
     }
 
     public function rayon(){
@@ -22,8 +22,6 @@ class Produit extends Model
 
     	return $this->belongsTo('App\Etagere');
     }
-
-    
 
     public function entrees()
     {

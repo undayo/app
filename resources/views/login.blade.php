@@ -21,52 +21,42 @@
 <!-- https://dribbble.com/shots/2358349-Daily-Shmaily-UI-1-Game-Login -->
 <div class="wrapper">
     <div class="container">
+     
         <div class="stencil">
             <div class="line">
                 <div class="line"></div>
             </div>
         </div>
+
         <div class="border-triangle"></div>
         <div class="content-triangle"></div>
         <div class="enter-triangle-one"></div>
         <div class="enter-triangle-two"></div>
-        <form onsubmit="return false" method="post" id="form">
+        <form  method="post" action="{{ url('login') }}">
+          {{ csrf_field() }}
             <div class="title">
                 <label>LOG INTO</label>
                 <label>RSMART</label>
             </div>
             <div class="input-inform">
-                <input type="email" name="email" id="email" placeholder="EMAIL..." />
-                <input type="password" name="password" id="password" placeholder="PASSWORD..." />
-                <input type="button" value="FORGOT PASSWORD?" id="forgot-pas"/>
+                <input type="email" name="email"  placeholder="EMAIL..." />
+                <input type="password" name="password"  placeholder="PASSWORD..." />
+                
             </div>
             <div class="enter">
                 <label for="enter"></label>
                 <input type="submit" name="submit" value="ENTER" id="enter"/>
             </div>
-        </form>    
+        </form> 
+
+    </div>
+    <div class="row">
+      @if(session('warning'))
+             <div class="alert alert-warning">
+               {{ session('warning') }}
+             </div>
+      @endif 
     </div>
 </div>
-<script src='//production-assets.codepen.io/assets/common/stopExecutionOnTimeout-b2a7b3fe212eaa732349046d8416e00a9dec26eb7fd347590fbced3ab38af52e.js'></script>
-<script >document.getElementById('enter').onclick = function() {
-    valid(document.getElementById('form'));
-}
 
-function valid(form) {
-    var fail = false,
-        email = form.email.value.trim(),
-        password = form.password.value.trim();
-    console.log();
-    
-    if (!email)
-        fail = 'You have not entered the email';
-    else if (!password)
-        fail = 'You have not entered the password';
-    if (fail)
-        alert(fail);
-    else
-        alert('You are connected');
-}
-//# sourceURL=pen.js
-</script><script src="//production-assets.codepen.io/assets/editor/live/check-c263eb37bf3a3d49b8311c096168b478f5750c61a1166ea2cc660498870d671f.js"></script>
 </body></html>

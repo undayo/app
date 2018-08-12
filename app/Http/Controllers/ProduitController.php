@@ -75,7 +75,9 @@ class ProduitController extends Controller
     public function edit($id){
 
     	$produit = Produit::FindOrFail($id);
-    	return view('admin.produits.edit', compact('produit'));
+        $rayons = Rayon::all();
+        $etageres = Etagere::all();
+    	return view('admin.produits.edit', compact('produit','rayons', 'etageres'));
 
     }
 
@@ -90,7 +92,6 @@ class ProduitController extends Controller
 
     	$validator = Validator::make(Input::all(), [
     		'nom'=>'required',
-    		'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
 
     	]);
 
@@ -104,19 +105,13 @@ class ProduitController extends Controller
             
     		$produit = Produit::FindOrFail($id);
     		$produit->nom = Input::get('nom');
-    		$produit->categorie_id = Input::get('categorie');
-    		if ($produit->image != Input::get('image'));
-    		{
-    			$imageName = time().'.'.request()->image->getClientOriginalExtension();
-    			$produit->image = $imageName;
-    			request()->image->move(public_path('images'), $imageName);
-    		}
-            $produit->prix = Input::get('prix');
+    		$produit->rayon_id = Input::get('rayon');
+    		$produit->etagere_id = Input::get('etagere');
     		$produit->save();
 
            
-    		Session::flash('success','Modification du produit pris en compte');
-    		return redirect()->route('produits.index');
+    		Session::flash('success','Changement d emplacement du produit pris en compte');
+    		return redirect()->route('rayons.index');
     	}
     }
 
