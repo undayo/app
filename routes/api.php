@@ -44,16 +44,79 @@ Route::get('produits', function() {
     return $data;
 });
 
+Route::get('categories', function() {
+    // If the Content-Type and Accept headers are set to 'application/json', 
+    // this will return a JSON structure. This will be cleaned up later.
+    $results = Categorie::all();
+
+    foreach ($results as $result) {
+        $data[] = array(
+            'id'=> $result->id,
+            'nom'=>$result->nom,
+        );
+    }
+    return $data;
+});
+
+Route::get('produits/{id}', function($id) {
+    // If the Content-Type and Accept headers are set to 'application/json', 
+    // this will return a JSON structure. This will be cleaned up later.
+    $result = Produit::FindOrFail($id);
+   
+        $data[] = array(
+            'id'=> $id,
+            'nom'=>$result->nom,
+            'image'=>$result->image,
+            'categorie'=>$result->categorie->nom,
+            'rayon'=>$result->rayon->nom,
+            'etagere'=>$result->etagere->nom,
+            'localisation'=>$result->rayon->image,
+            'stock'=>$result->stock(),
+            'prix'=>$result->prix
+        );
+    
+    return $data;
+    
+});
+
 
 
 Route::get('produits/{slug}', function($slug) {
     // If the Content-Type and Accept headers are set to 'application/json', 
     // this will return a JSON structure. This will be cleaned up later.
-    return Produit::where('nom','LIKE','%'.$slug.'%')->get();
+    $results = Produit::where('nom','LIKE','%'.$slug.'%')->get();
+    foreach ($results as $result) {
+        $data[] = array(
+            'id'=> $result->id,
+            'nom'=>$result->nom,
+            'image'=>$result->image,
+            'categorie'=>$result->categorie->nom,
+            'rayon'=>$result->rayon->nom,
+            'etagere'=>$result->etagere->nom,
+            'localisation'=>$result->rayon->image,
+            'stock'=>$result->stock(),
+            'prix'=>$result->prix
+        );
+    }
+    return $data;
 });
 
 Route::get('produits/detail/{id}', function($id) {
     // If the Content-Type and Accept headers are set to 'application/json', 
     // this will return a JSON structure. This will be cleaned up later.
-    return Produit::FindOrFail($id);
+    $result = Produit::FindOrFail($id);
+   
+        $data[] = array(
+            'id'=> $id,
+            'nom'=>$result->nom,
+            'image'=>$result->image,
+            'categorie'=>$result->categorie->nom,
+            'rayon'=>$result->rayon->nom,
+            'etagere'=>$result->etagere->nom,
+            'localisation'=>$result->rayon->image,
+            'stock'=>$result->stock(),
+            'prix'=>$result->prix
+        );
+    
+    return $data;
 });
